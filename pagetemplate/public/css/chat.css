@@ -1,0 +1,23 @@
+.chat-input{
+  border: none;
+  border-bottom: 2px solid #00B4A0;
+  outline: none;
+  background: transparent;
+  color: #ffffff;
+  width: 100%;
+  padding-left: 0.125rem;
+  margin-bottom: -0.125rem;
+}
+.chat-message{
+
+}
+.from-user{
+  text-align: left;
+  /*background-color: red*/
+}
+
+.from-watson{
+  text-align: right;
+  /*background-color: blue*/
+
+}

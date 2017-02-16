@@ -1,0 +1,638 @@
+{
+    "name": "SwissInsuranceChatbot (import/export)",
+    "created": "2017-02-09T12:44:06.872Z",
+    "intents": [{
+        "intent": "call_back",
+        "created": "2017-02-10T11:28:29.117Z",
+        "updated": "2017-02-10T11:28:29.151Z",
+        "examples": [{
+            "text": "ich bin mir nicht sicher",
+            "created": "2017-02-10T11:28:29.151Z",
+            "updated": "2017-02-10T11:28:29.151Z"
+        }, {
+            "text": "ich habe noch weitere fragen",
+            "created": "2017-02-10T11:28:29.151Z",
+            "updated": "2017-02-10T11:28:29.151Z"
+        }, {
+            "text": "ich verstehe das nicht",
+            "created": "2017-02-10T11:28:29.151Z",
+            "updated": "2017-02-10T11:28:29.151Z"
+        }, {
+            "text": "kann mich jemand zurück rufen?",
+            "created": "2017-02-10T11:28:29.151Z",
+            "updated": "2017-02-10T11:28:29.151Z"
+        }, {
+            "text": "können sie mir das genauer erklären?",
+            "created": "2017-02-10T11:28:29.151Z",
+            "updated": "2017-02-10T11:28:29.151Z"
+        }],
+        "description": null
+    }, {
+        "intent": "get_info",
+        "created": "2017-02-10T11:28:29.117Z",
+        "updated": "2017-02-10T16:49:34.507Z",
+        "examples": [{
+            "text": "ich brauche eine versicherung",
+            "created": "2017-02-10T11:28:29.151Z",
+            "updated": "2017-02-10T11:28:29.151Z"
+        }, {
+            "text": "Ich brauch eine Familienversicherung",
+            "created": "2017-02-10T13:53:14.112Z",
+            "updated": "2017-02-10T13:53:14.112Z"
+        }, {
+            "text": "ich interessiere mich für",
+            "created": "2017-02-10T11:28:29.151Z",
+            "updated": "2017-02-10T11:28:29.151Z"
+        }, {
+            "text": "ich möchte mein Auto versichern",
+            "created": "2017-02-10T16:49:34.507Z",
+            "updated": "2017-02-10T16:49:34.507Z"
+        }, {
+            "text": "was brauche ich für eine versicherung",
+            "created": "2017-02-10T11:28:29.151Z",
+            "updated": "2017-02-10T11:28:29.151Z"
+        }, {
+            "text": "was kostet eine versicherung",
+            "created": "2017-02-10T11:28:29.151Z",
+            "updated": "2017-02-10T11:28:29.151Z"
+        }, {
+            "text": "welche versicherung würden sie empfehlen",
+            "created": "2017-02-10T11:28:29.151Z",
+            "updated": "2017-02-10T11:28:29.151Z"
+        }],
+        "description": null
+    }, {
+        "intent": "provide_info",
+        "created": "2017-02-10T12:19:52.157Z",
+        "updated": "2017-02-10T13:52:12.202Z",
+        "examples": [{
+            "text": "Kinder",
+            "created": "2017-02-10T13:52:12.202Z",
+            "updated": "2017-02-10T13:52:12.202Z"
+        }],
+        "description": null
+    }, {
+        "intent": "say_goodbye",
+        "created": "2017-02-10T11:28:29.117Z",
+        "updated": "2017-02-10T11:28:29.151Z",
+        "examples": [{
+            "text": "ade",
+            "created": "2017-02-10T11:28:29.151Z",
+            "updated": "2017-02-10T11:28:29.151Z"
+        }, {
+            "text": "adieu",
+            "created": "2017-02-10T11:28:29.151Z",
+            "updated": "2017-02-10T11:28:29.151Z"
+        }, {
+            "text": "bye",
+            "created": "2017-02-10T11:28:29.151Z",
+            "updated": "2017-02-10T11:28:29.151Z"
+        }, {
+            "text": "ciao",
+            "created": "2017-02-10T11:28:29.151Z",
+            "updated": "2017-02-10T11:28:29.151Z"
+        }, {
+            "text": "tschau",
+            "created": "2017-02-10T11:28:29.151Z",
+            "updated": "2017-02-10T11:28:29.151Z"
+        }, {
+            "text": "tschüss",
+            "created": "2017-02-10T11:28:29.151Z",
+            "updated": "2017-02-10T11:28:29.151Z"
+        }, {
+            "text": "uf widerluege",
+            "created": "2017-02-10T11:28:29.151Z",
+            "updated": "2017-02-10T11:28:29.151Z"
+        }, {
+            "text": "uf wiederluege",
+            "created": "2017-02-10T11:28:29.151Z",
+            "updated": "2017-02-10T11:28:29.151Z"
+        }, {
+            "text": "widerluege",
+            "created": "2017-02-10T11:28:29.151Z",
+            "updated": "2017-02-10T11:28:29.151Z"
+        }, {
+            "text": "wiederluege",
+            "created": "2017-02-10T11:28:29.151Z",
+            "updated": "2017-02-10T11:28:29.151Z"
+        }],
+        "description": null
+    }, {
+        "intent": "say_hello",
+        "created": "2017-02-10T11:28:29.117Z",
+        "updated": "2017-02-10T11:28:29.151Z",
+        "examples": [{
+            "text": "gruezi",
+            "created": "2017-02-10T11:28:29.151Z",
+            "updated": "2017-02-10T11:28:29.151Z"
+        }, {
+            "text": "grüezi",
+            "created": "2017-02-10T11:28:29.151Z",
+            "updated": "2017-02-10T11:28:29.151Z"
+        }, {
+            "text": "guete tag",
+            "created": "2017-02-10T11:28:29.151Z",
+            "updated": "2017-02-10T11:28:29.151Z"
+        }, {
+            "text": "hallo",
+            "created": "2017-02-10T11:28:29.151Z",
+            "updated": "2017-02-10T11:28:29.151Z"
+        }, {
+            "text": "hi",
+            "created": "2017-02-10T11:28:29.151Z",
+            "updated": "2017-02-10T11:28:29.151Z"
+        }, {
+            "text": "hoi",
+            "created": "2017-02-10T11:28:29.151Z",
+            "updated": "2017-02-10T11:28:29.151Z"
+        }],
+        "description": null
+    }, {
+        "intent": "say_thanks",
+        "created": "2017-02-10T11:28:29.117Z",
+        "updated": "2017-02-10T12:09:55.581Z",
+        "examples": [{
+            "text": "danke",
+            "created": "2017-02-10T11:28:29.151Z",
+            "updated": "2017-02-10T11:28:29.151Z"
+        }, {
+            "text": "märssi",
+            "created": "2017-02-10T11:28:29.151Z",
+            "updated": "2017-02-10T11:28:29.151Z"
+        }, {
+            "text": "merci",
+            "created": "2017-02-10T11:28:29.151Z",
+            "updated": "2017-02-10T11:28:29.151Z"
+        }, {
+            "text": "ok",
+            "created": "2017-02-10T11:28:29.151Z",
+            "updated": "2017-02-10T11:28:29.151Z"
+        }, {
+            "text": "ok danke",
+            "created": "2017-02-10T11:29:46.269Z",
+            "updated": "2017-02-10T11:29:46.269Z"
+        }, {
+            "text": "Super, danke",
+            "created": "2017-02-10T12:09:55.581Z",
+            "updated": "2017-02-10T12:09:55.581Z"
+        }, {
+            "text": "vielen dank",
+            "created": "2017-02-10T11:28:29.151Z",
+            "updated": "2017-02-10T11:28:29.151Z"
+        }],
+        "description": null
+    }],
+    "updated": "2017-02-10T16:49:34.507Z",
+    "entities": [{
+        "type": null,
+        "entity": "contract",
+        "source": null,
+        "values": [{
+            "value": "bestehend",
+            "created": "2017-02-10T11:30:24.057Z",
+            "updated": "2017-02-10T11:30:24.057Z",
+            "metadata": null,
+            "synonyms": ["Altvertrag", "Bestandsvertrag"]
+        }, {
+            "value": "neu",
+            "created": "2017-02-10T11:30:24.057Z",
+            "updated": "2017-02-10T11:30:24.057Z",
+            "metadata": null,
+            "synonyms": ["Angebot", "Neuer Vetrag", "zusätzlicher Vertrag"]
+        }],
+        "created": "2017-02-10T11:30:24.034Z",
+        "updated": "2017-02-10T11:30:24.034Z",
+        "open_list": null,
+        "description": null
+    }, {
+        "type": null,
+        "entity": "product",
+        "source": null,
+        "values": [{
+            "value": "Haftpflicht",
+            "created": "2017-02-10T11:30:24.058Z",
+            "updated": "2017-02-10T11:30:24.058Z",
+            "metadata": null,
+            "synonyms": ["Beschädigung", "Haftpflichtversicherung", "kaputt"]
+        }, {
+            "value": "Hausrat",
+            "created": "2017-02-10T11:30:24.058Z",
+            "updated": "2017-02-10T11:30:24.058Z",
+            "metadata": null,
+            "synonyms": ["Hausratsversicherung", "Möbel"]
+        }, {
+            "value": "KFZ",
+            "created": "2017-02-10T11:30:24.058Z",
+            "updated": "2017-02-10T11:30:24.058Z",
+            "metadata": null,
+            "synonyms": ["Auto", "Moped", "Motorrad"]
+        }, {
+            "value": "Leben",
+            "created": "2017-02-10T11:30:24.058Z",
+            "updated": "2017-02-10T11:30:24.058Z",
+            "metadata": null,
+            "synonyms": ["Altersvorsorge", "Lebensversicherung"]
+        }, {
+            "value": "Unfall",
+            "created": "2017-02-10T11:30:24.058Z",
+            "updated": "2017-02-10T11:30:24.058Z",
+            "metadata": null,
+            "synonyms": ["Unfallversicherung", "Verletzungen"]
+        }],
+        "created": "2017-02-10T11:30:24.034Z",
+        "updated": "2017-02-10T11:30:24.034Z",
+        "open_list": null,
+        "description": null
+    }, {
+        "type": null,
+        "entity": "status",
+        "source": null,
+        "values": [{
+            "value": "mit kindern",
+            "created": "2017-02-10T11:30:24.058Z",
+            "updated": "2017-02-10T13:53:53.778Z",
+            "metadata": null,
+            "synonyms": ["Alleinerziehend", "Familie", "KInd", "Kinder"]
+        }, {
+            "value": "single",
+            "created": "2017-02-10T11:30:24.058Z",
+            "updated": "2017-02-10T13:54:04.601Z",
+            "metadata": null,
+            "synonyms": ["Einzelperson"]
+        }],
+        "created": "2017-02-10T11:30:24.034Z",
+        "updated": "2017-02-10T11:30:24.034Z",
+        "open_list": null,
+        "description": null
+    }, {
+        "type": null,
+        "entity": "sys-currency",
+        "source": "system.entities",
+        "values": [],
+        "created": "2017-02-10T10:22:14.096Z",
+        "updated": "2017-02-10T10:22:14.096Z",
+        "open_list": false,
+        "description": null
+    }, {
+        "type": null,
+        "entity": "sys-date",
+        "source": "system.entities",
+        "values": [],
+        "created": "2017-02-10T10:22:04.100Z",
+        "updated": "2017-02-10T10:22:04.100Z",
+        "open_list": false,
+        "description": null
+    }, {
+        "type": null,
+        "entity": "sys-number",
+        "source": "system.entities",
+        "values": [],
+        "created": "2017-02-10T10:22:11.166Z",
+        "updated": "2017-02-10T10:22:11.166Z",
+        "open_list": false,
+        "description": null
+    }, {
+        "type": null,
+        "entity": "sys-percentage",
+        "source": "system.entities",
+        "values": [],
+        "created": "2017-02-10T10:22:16.101Z",
+        "updated": "2017-02-10T10:22:16.101Z",
+        "open_list": false,
+        "description": null
+    }, {
+        "type": null,
+        "entity": "sys-time",
+        "source": "system.entities",
+        "values": [],
+        "created": "2017-02-10T10:22:00.774Z",
+        "updated": "2017-02-10T10:22:00.774Z",
+        "open_list": false,
+        "description": null
+    }],
+    "language": "de",
+    "metadata": null,
+    "description": "A simple conversation bot for a dialog between customers and an insurance company.  In (Swiss) German",
+    "dialog_nodes": [{
+        "go_to": null,
+        "output": {},
+        "parent": null,
+        "context": null,
+        "created": "2017-02-10T11:53:34.938Z",
+        "updated": "2017-02-10T14:38:47.849Z",
+        "metadata": null,
+        "conditions": "#get_info",
+        "description": null,
+        "dialog_node": "Auskunft erbeten",
+        "previous_sibling": "Kunde bedankt sich"
+    }, {
+        "go_to": null,
+        "output": {},
+        "parent": "Auskunft erbeten",
+        "context": null,
+        "created": "2017-02-10T13:57:57.562Z",
+        "updated": "2017-02-10T16:46:27.388Z",
+        "metadata": null,
+        "conditions": "#provide_info",
+        "description": null,
+        "dialog_node": "Erfrage Zusatzinformationen",
+        "previous_sibling": null
+    }, {
+        "go_to": null,
+        "output": {},
+        "parent": "Erfrage Zusatzinformationen",
+        "context": null,
+        "created": "2017-02-10T16:43:10.209Z",
+        "updated": "2017-02-10T16:47:29.315Z",
+        "metadata": null,
+        "conditions": "#provide_info",
+        "description": null,
+        "dialog_node": "Informationen zum gesuchten Produkt",
+        "previous_sibling": null
+    }, {
+        "go_to": null,
+        "output": {
+            "text": {
+                "values": ["Danke für Ihre Anfrage, auf Wiedersehen."],
+                "selection_policy": "sequential"
+            }
+        },
+        "parent": null,
+        "context": null,
+        "created": "2017-02-10T12:00:00.203Z",
+        "updated": "2017-02-10T16:18:53.787Z",
+        "metadata": null,
+        "conditions": "#say_goodbye",
+        "description": null,
+        "dialog_node": "Verabschieden",
+        "previous_sibling": "Kunde benötigt Rückruf"
+    }, {
+        "go_to": null,
+        "output": {
+            "text": {
+                "values": ["Das habe ich leider nicht verstanden."],
+                "selection_policy": "sequential"
+            }
+        },
+        "parent": null,
+        "context": null,
+        "created": "2017-02-10T11:31:30.883Z",
+        "updated": "2017-02-10T14:26:32.242Z",
+        "metadata": null,
+        "conditions": "anything_else",
+        "description": null,
+        "dialog_node": "anything_else",
+        "previous_sibling": "Verabschieden"
+    }, {
+        "go_to": null,
+        "output": {
+            "text": {
+                "values": ["Gerne. Kann ich sonst noch etwas für Sie tun?"],
+                "selection_policy": "sequential"
+            }
+        },
+        "parent": null,
+        "context": null,
+        "created": "2017-02-10T11:34:50.664Z",
+        "updated": "2017-02-10T14:24:28.880Z",
+        "metadata": null,
+        "conditions": "#say_thanks",
+        "description": null,
+        "dialog_node": "Kunde bedankt sich",
+        "previous_sibling": "Kunde grüsst"
+    }, {
+        "go_to": null,
+        "output": {
+            "text": {
+                "values": ["Gruezi, wie kann ich Ihnen helfen?"],
+                "selection_policy": "sequential"
+            }
+        },
+        "parent": null,
+        "context": null,
+        "created": "2017-02-10T11:30:39.551Z",
+        "updated": "2017-02-10T14:34:42.661Z",
+        "metadata": null,
+        "conditions": "welcome",
+        "description": null,
+        "dialog_node": "Willkommen",
+        "previous_sibling": null
+    }, {
+        "go_to": null,
+        "output": {
+            "text": {
+                "values": ["Möchten Sie von einem unserer Sachbearbieter zurückgerufen werden?"],
+                "selection_policy": "sequential"
+            }
+        },
+        "parent": null,
+        "context": null,
+        "created": "2017-02-10T14:02:27.956Z",
+        "updated": "2017-02-10T14:23:41.011Z",
+        "metadata": null,
+        "conditions": "#call_back",
+        "description": null,
+        "dialog_node": "Kunde benötigt Rückruf",
+        "previous_sibling": "Auskunft erbeten"
+    }, {
+        "go_to": null,
+        "output": {
+            "text": {
+                "values": ["Guten Tag", "Gruezi", "Hallo? Können Sie mich verstehen?"],
+                "selection_policy": "sequential"
+            }
+        },
+        "parent": null,
+        "context": null,
+        "created": "2017-02-10T14:29:50.936Z",
+        "updated": "2017-02-10T14:34:33.629Z",
+        "metadata": null,
+        "conditions": "#say_hello",
+        "description": null,
+        "dialog_node": "Kunde grüsst",
+        "previous_sibling": "Willkommen"
+    }, {
+        "type": "response_condition",
+        "go_to": null,
+        "output": {
+            "text": {
+                "values": ["Eine gute Idee... mit Kindern geht immer was kaputt. Wieviele Kinder haben Sie denn?"],
+                "selection_policy": "sequential"
+            }
+        },
+        "parent": "Erfrage Zusatzinformationen",
+        "context": null,
+        "created": "2017-02-10T16:34:16.438Z",
+        "updated": "2017-02-10T16:38:00.700Z",
+        "metadata": null,
+        "conditions": "@status:(mit kindern) && @product:Haftpflicht",
+        "description": null,
+        "dialog_node": "node_37_1486744460461",
+        "previous_sibling": "node_32_1486743212342"
+    }, {
+        "type": "response_condition",
+        "go_to": null,
+        "output": {
+            "text": {
+                "values": ["Eine Haftpflichtversicherung - infos gibt es hier: ..."],
+                "selection_policy": "sequential"
+            }
+        },
+        "parent": "Informationen zum gesuchten Produkt",
+        "context": null,
+        "created": "2017-02-10T16:43:41.790Z",
+        "updated": "2017-02-10T16:44:07.132Z",
+        "metadata": null,
+        "conditions": " @product:Haftpflicht",
+        "description": null,
+        "dialog_node": "node_40_1486745025429",
+        "previous_sibling": null
+    }, {
+        "type": "response_condition",
+        "go_to": null,
+        "output": {
+            "text": {
+                "values": ["Für Details zu unseren KFZ Versicherungen gehen Sie bitte auf: http://www.google.com"],
+                "selection_policy": "sequential"
+            }
+        },
+        "parent": "Auskunft erbeten",
+        "context": null,
+        "created": "2017-02-10T14:40:19.313Z",
+        "updated": "2017-02-10T14:41:16.634Z",
+        "metadata": null,
+        "conditions": " @product:KFZ",
+        "description": null,
+        "dialog_node": "node_28_1486737622965",
+        "previous_sibling": "node_27_1486737531180"
+    }, {
+        "type": "response_condition",
+        "go_to": null,
+        "output": {
+            "text": {
+                "values": ["Hier infos zu unseren Haftpflichversicherungen"],
+                "selection_policy": "sequential"
+            }
+        },
+        "parent": "Erfrage Zusatzinformationen",
+        "context": null,
+        "created": "2017-02-10T16:12:47.164Z",
+        "updated": "2017-02-10T16:13:25.617Z",
+        "metadata": null,
+        "conditions": " @product:Haftpflicht",
+        "description": null,
+        "dialog_node": "node_31_1486743171156",
+        "previous_sibling": "Informationen zum gesuchten Produkt"
+    }, {
+        "type": "response_condition",
+        "go_to": null,
+        "output": {
+            "text": {
+                "values": ["Informationen zu unseren Haftpflichversicherungen finden Sie hier: ...."],
+                "selection_policy": "sequential"
+            }
+        },
+        "parent": "Auskunft erbeten",
+        "context": null,
+        "created": "2017-02-10T14:38:47.130Z",
+        "updated": "2017-02-10T14:40:18.881Z",
+        "metadata": null,
+        "conditions": "@product:Haftpflicht",
+        "description": null,
+        "dialog_node": "node_27_1486737531180",
+        "previous_sibling": "Erfrage Zusatzinformationen"
+    }, {
+        "type": "response_condition",
+        "go_to": null,
+        "output": {
+            "text": {
+                "values": ["KFZ Versicherungen finden Sie auf ..."],
+                "selection_policy": "sequential"
+            }
+        },
+        "parent": "Informationen zum gesuchten Produkt",
+        "context": null,
+        "created": "2017-02-10T16:44:12.202Z",
+        "updated": "2017-02-10T16:44:54.376Z",
+        "metadata": null,
+        "conditions": " @product:KFZ",
+        "description": null,
+        "dialog_node": "node_41_1486745056233",
+        "previous_sibling": "node_40_1486745025429"
+    }, {
+        "type": "response_condition",
+        "go_to": null,
+        "output": {
+            "text": {
+                "values": ["KFZ Versicherungen finden Sie unter ..."],
+                "selection_policy": "sequential"
+            }
+        },
+        "parent": "Erfrage Zusatzinformationen",
+        "context": null,
+        "created": "2017-02-10T16:13:28.305Z",
+        "updated": "2017-02-10T16:14:14.243Z",
+        "metadata": null,
+        "conditions": " @product:KFZ",
+        "description": null,
+        "dialog_node": "node_32_1486743212342",
+        "previous_sibling": "node_31_1486743171156"
+    }, {
+        "type": "response_condition",
+        "go_to": null,
+        "output": {
+            "text": {
+                "values": ["Können Sie mir das etwas genauer erklären?"],
+                "selection_policy": "sequential"
+            }
+        },
+        "parent": "Erfrage Zusatzinformationen",
+        "context": null,
+        "created": "2017-02-10T16:14:16.909Z",
+        "updated": "2017-02-10T16:22:15.078Z",
+        "metadata": null,
+        "conditions": " true",
+        "description": null,
+        "dialog_node": "node_33_1486743260943",
+        "previous_sibling": "node_38_1486744654608"
+    }, {
+        "type": "response_condition",
+        "go_to": null,
+        "output": {
+            "text": {
+                "values": ["Sie wollen also ihre Kinder versichern ... was wollen sie denn absichern?"],
+                "selection_policy": "sequential"
+            }
+        },
+        "parent": "Erfrage Zusatzinformationen",
+        "context": null,
+        "created": "2017-02-10T16:37:31.194Z",
+        "updated": "2017-02-10T16:39:30.958Z",
+        "metadata": null,
+        "conditions": "@status:(mit kindern)",
+        "description": null,
+        "dialog_node": "node_38_1486744654608",
+        "previous_sibling": "node_37_1486744460461"
+    }, {
+        "type": "response_condition",
+        "go_to": null,
+        "output": {
+            "text": {
+                "values": ["Was genau wollen Sie denn versichern?"],
+                "selection_policy": "sequential"
+            }
+        },
+        "parent": "Auskunft erbeten",
+        "context": null,
+        "created": "2017-02-10T14:41:54.551Z",
+        "updated": "2017-02-10T16:08:13.814Z",
+        "metadata": null,
+        "conditions": "true",
+        "description": null,
+        "dialog_node": "node_29_1486737718586",
+        "previous_sibling": "node_28_1486737622965"
+    }],
+    "workspace_id": "5dfa2686-1c58-4abf-b678-4ab227972e13",
+    "counterexamples": [],
+    "status": "Available"
+}

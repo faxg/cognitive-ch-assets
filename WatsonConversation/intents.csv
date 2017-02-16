@@ -1,0 +1,32 @@
+hi,say_hello
+hallo,say_hello
+gruezi,say_hello
+hoi,say_hello
+guete tag,say_hello
+grüezi,say_hello
+bye,say_goodbye
+ciao,say_goodbye
+ade,say_goodbye
+wiederluege,say_goodbye
+widerluege,say_goodbye
+uf widerluege,say_goodbye
+uf wiederluege,say_goodbye
+adieu,say_goodbye
+tschüss,say_goodbye
+tschau,say_goodbye
+danke,say_thanks
+vielen dank,say_thanks
+"super, vielen dank",say_thanks
+merci,say_thanks
+märssi,say_thanks
+"ok, danke",say_thanks
+ich interessiere mich für,get_info
+ich brauche eine versicherung,get_info
+was kostet eine versicherung,get_info
+was brauche ich für eine versicherung,get_info
+welche versicherung würden sie empfehlen,get_info
+ich verstehe das nicht,call_back
+können sie mir das genauer erklären?,call_back
+kann mich jemand zurück rufen?,call_back
+ich habe noch weitere fragen,call_back
+ich bin mir nicht sicher,call_back

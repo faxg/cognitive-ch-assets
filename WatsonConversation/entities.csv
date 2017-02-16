@@ -1,0 +1,11 @@
+contract,neu,Neuer Vetrag,Angebot,zusätzlicher Vertrag,,,,
+contract,bestehend,Bestandsvertrag,Altvertrag,mein Vertrag bei ihnen,Vertrag,,,
+product,Unfall,Unfallversicherung,Verletzungen,,,,,
+product,Hausrat,Hausratsversicherung,Möbel,,,,,
+product,Haftpflicht,Haftpflichtversicherung,Beschädigung,kaputt,,,,
+product,Leben,Lebensversicherung,Altersvorsorge,,,,,
+product,KFZ,Auto,Motorrad,Moped,,,,
+status,single,Einzelperson,alleine,solo,,,,
+status,mit kindern,Familie,Kinder,Alleinerziehend,,,,
+relative,Kind,Kleine,Babies,Baby,Junger,Junior,jüngester,ältester
+relative,Partner,Freund,Ehemann,Ehefau,Freundin,meine Liebste,mein Liebster,
