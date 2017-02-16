@@ -3,7 +3,12 @@ var _ = require('lodash');
 var watson = require('watson-developer-cloud');
 
 var router = express.Router();
-
+// Authentication module.
+var auth = require('http-auth');
+var basic = auth.basic({
+    realm: "Protected",
+    file: __dirname + "/../users.htpasswd"
+});
 
 var conversation = watson.conversation({
     username: process.env.WDC_USERNAME,
@@ -14,8 +19,8 @@ var conversation = watson.conversation({
 var workspaceId = process.env.WDC_WORKSPACE_ID;
 
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
+/* GET home page. protected*/
+router.get('/', auth.connect(basic), function(req, res, next) {
     var defaults = require("../public/profiles/default.json");
     var templateValues = {}; // todo load override values (e.g. locale)
     _.defaults(templateValues, defaults);
@@ -23,6 +28,7 @@ router.get('/', function(req, res, next) {
 
     res.render('index', templateValues);
 });
+
 
 router.get('/watson-chat', function(req, res) {
     var payload = {};
