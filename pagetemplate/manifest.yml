@@ -1,0 +1,11 @@
+
+---
+declared-services:
+  conversation-service:
+    label: conversation
+    plan: free
+applications:
+- name: insurance-chatbot
+  command: npm install && npm start
+  path: .
+  memory: 256M
