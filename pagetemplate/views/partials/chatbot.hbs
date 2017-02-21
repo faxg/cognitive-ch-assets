@@ -1,29 +1,41 @@
 <form data-bind="submit: send">
+
+
     <div data-bind="foreach: messages">
-        <!-- render this is message came from user -->
-        <div data-bind="if: from == 'user'" class="from-user">
-            <img src="img/user.png" class="img-circle" height="48" width="48">
-            <span data-bind="text: $data.text"></span>
-        </div>
-        <!-- render this is message is a response from Watson -->
-        <div data-bind="if: from == 'watson'" class="from-watson">
-            <span data-bind="text: $data.text"></span>
-            <img src="img/watson.png" class="img-circle" height="48" width="48">
+        <div class="row">
 
-            <!-- show details on Watson responses when showDetails flag is true -->
-            <small data-bind="visible: $parent.showDetails">
-              <br />
-              <span data-bind="foreach: raw_response.intents">
-                <span class="label label-default" data-bind="text: '#' + intent + '('+(Math.round(confidence*100)/100)*100+'%)'"></span>
-              </span>
-              <span data-bind="foreach: raw_response.entities">
-                <span class="label label-success" data-bind="text: '@' + entity + '= '+ value"></span>
-              </span>
-            </small>
-
+            <!-- User message-->
+            <span data-bind="if: from == 'user'">
+              <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 from-user">
+                <img src="img/user.png" class="img-circle" height="48" width="48"></img>
+                <span data-bind="text: $data.text"></span>
         </div>
+        </span>
+
+        <!-- Watson message-->
+        <span data-bind="if: from == 'watson'">
+              <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 from-watson">
+              <span data-bind="text: $data.text"></span>
+        <img src="img/watson.png" class="img-circle" height="48" width="48">
+
+        <!-- show details on Watson responses when showDetails flag is true -->
+        <small data-bind="visible: $parent.showDetails">
+                <br />
+                <span data-bind="foreach: raw_response.intents">
+                  <span class="label label-default" data-bind="text: '#' + intent + '('+(Math.round(confidence*100)/100)*100+'%)'"></span>
+                </span>
+                <span data-bind="foreach: raw_response.entities">
+                  <span class="label label-success" data-bind="text: '@' + entity + '= '+ value"></span>
+                </span>
+              </small>
+    </div>
+    </span>
 
     </div>
+    </div>
+
+
+
     <input class="chat-input" data-bind='value: userInput, valueUpdate: "afterkeydown"' placeholder="Ihre Eingabe bitte" />
     <!-- <div  class="checkbox" onmouseover="document.getElementById('checkboxShowDetails').style.display = 'block';"
     onmouseout="document.getElementById('checkboxShowDetails').style.display = 'none';">
@@ -32,17 +44,20 @@
     <div class="detailsPanel" onmouseover="viewmodel.showDetailsVisible(true)" onmouseout="viewmodel.showDetailsVisible(false)">
         <p><i class="fa fa-code"></i></p>
         <div data-bind="visible: showDetailsVisible">
-          <div class="checkbox">
-            <label id="checkboxShowDetails"><input type="checkbox" data-bind="checked: showDetails">Show details</label>
-          </div>
-          <!-- <div><button data-bind="click: clearMessages">Clear</button></div> -->
+            <div class="checkbox">
+                <label id="checkboxShowDetails"><input type="checkbox" data-bind="checked: showDetails">Show details</label>
+            </div>
+            <!-- <div><button data-bind="click: clearMessages">Clear</button></div> -->
         </div>
     </div>
 
 
 </form>
 
-<div><p>&nbsp;</p></div>
+
+<div>
+    <p>&nbsp;</p>
+</div>
 
 <!-- JSON view of latest Watson response -->
 <div data-bind="visible: showDetails">
@@ -58,7 +73,10 @@
     var ViewModel = function() {
         self = this;
         self.messages = ko.observableArray(); // contains objects {from: 'watson|user', text: '...'}
-        self.clearMessages = function(){self.messages ([]); self.conversationContext({})};
+        self.clearMessages = function() {
+            self.messages([]);
+            self.conversationContext({})
+        };
         self.userInput = ko.observable('');
         self.conversationContext = ko.observable({});
         self.showDetails = ko.observable(false);
