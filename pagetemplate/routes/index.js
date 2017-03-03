@@ -22,7 +22,9 @@ var workspaceId = process.env.WDC_WORKSPACE_ID;
 /* GET home page. protected*/
 router.get('/', auth.connect(basic), function(req, res, next) {
     var defaults = require("../public/profiles/default.json");
-    var templateValues = {}; // todo load override values (e.g. locale)
+    var templateValues = {
+      WDC_WORKSPACE_ID: workspaceId
+    }; // todo load override values (e.g. locale)
     _.defaults(templateValues, defaults);
 
 
@@ -36,6 +38,8 @@ router.get('/watson-chat', function(req, res) {
 
     // we simply pass the context with the query param
     var context = JSON.parse (req.query.context || {});
+    workspaceId = req.query.workspaceId || workspaceId;
+
 
     conversation.message({
         workspace_id: workspaceId,
@@ -47,7 +51,9 @@ router.get('/watson-chat', function(req, res) {
         if (err) {
             console.log('error:', err);
             payload = {
-                text: "?"
+                output: {
+                  text: 'Sorry, but: ' + err.error
+                }
             };
         } else {
             payload = response;

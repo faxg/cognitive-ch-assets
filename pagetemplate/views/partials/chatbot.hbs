@@ -3,7 +3,6 @@
 
     <div data-bind="foreach: messages">
         <div class="row">
-
             <!-- User message-->
             <span data-bind="if: from == 'user'">
               <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 from-user">
@@ -37,22 +36,24 @@
 
 
     <input class="chat-input" data-bind='value: userInput, valueUpdate: "afterkeydown"' placeholder="Ihre Eingabe bitte" />
-    <!-- <div  class="checkbox" onmouseover="document.getElementById('checkboxShowDetails').style.display = 'block';"
-    onmouseout="document.getElementById('checkboxShowDetails').style.display = 'none';">
-        <label id="checkboxShowDetails"><input type="checkbox" data-bind="checked: showDetails">Details</label>
-    </div> -->
-    <div class="detailsPanel" onmouseover="viewmodel.showDetailsVisible(true)" onmouseout="viewmodel.showDetailsVisible(false)">
-        <p><i class="fa fa-code"></i></p>
-        <div data-bind="visible: showDetailsVisible">
-            <div class="checkbox">
-                <label id="checkboxShowDetails"><input type="checkbox" data-bind="checked: showDetails">Show details</label>
-            </div>
-            <!-- <div><button data-bind="click: clearMessages">Clear</button></div> -->
-        </div>
-    </div>
+
 
 
 </form>
+
+<div class="detailsPanel" onmouseover="viewmodel.showDetailsVisible(true)" onmouseout="viewmodel.showDetailsVisible(false)">
+    <p><i class="fa fa-code"></i></p>
+    <div data-bind="visible: showDetailsVisible">
+        <div class="checkbox">
+            <label id="checkboxShowDetails"><input type="checkbox" data-bind="checked: showDetails"/>Show details</label>
+        </div>
+        <div>
+            <input class="ws-input" data-bind="value: workspaceId" />
+        </div>
+        <div><button class="btn-success" data-bind="click: clearMessages">Clear</button>
+          <button class="btn-warning" data-bind="click: workspaceId(DEFAULT_WORKSPACE_ID)">Reset</button></div>
+    </div>
+</div>
 
 
 <div>
@@ -61,7 +62,8 @@
 
 <!-- JSON view of latest Watson response -->
 <div data-bind="visible: showDetails">
-    <pre class="pre-scrollable" data-bind="text: JSON.stringify(conversationContext(),null,2)">
+    <textarea class="pre-scrollable" data-bind="textInput: conversationContext">
+    </textarea>
   </pre>
 </div>
 
@@ -69,17 +71,20 @@
 
 
 <script>
+    var DEFAULT_WORKSPACE_ID = "{{WDC_WORKSPACE_ID}}";
     // The view model is an abstract description of the state of the UI, but without any knowledge of the UI technology (HTML)
     var ViewModel = function() {
         self = this;
         self.messages = ko.observableArray(); // contains objects {from: 'watson|user', text: '...'}
+
         self.clearMessages = function() {
             self.messages([]);
-            self.conversationContext({})
+            self.conversationContext("{}");
         };
         self.userInput = ko.observable('');
-        self.conversationContext = ko.observable({});
+        self.conversationContext = ko.observable("{}");
         self.showDetails = ko.observable(false);
+        self.workspaceId = ko.observable(DEFAULT_WORKSPACE_ID);
         self.showDetailsVisible = ko.observable(false);
 
 
@@ -94,7 +99,10 @@
                 self.userInput(''); // clear input text
 
                 // call backend which in turn calls the watson conversation service
-                $.get("/watson-chat?text=" + encodeURIComponent(text) + "&context=" + encodeURIComponent(JSON.stringify(self.conversationContext())), function(data) {
+                var textParam = "text=" + encodeURIComponent(text) ;
+                var contextParam="context=" + encodeURIComponent(self.conversationContext());
+                var wsParam = "workspaceId=" + self.workspaceId();
+                $.get("/watson-chat?"+ textParam + "&" + contextParam + "&" + wsParam,function(data) {
                     response = JSON.parse(data);
                     console.log(response);
 
@@ -104,12 +112,17 @@
                         raw_response: response
                     });
                     // save the conversation context for subsequent calls
-                    self.conversationContext(response);
+                    self.conversationContext(JSON.stringify(response.context,null,2));
+
+                    // scroll input field into view
+
                 });
             }
         }
 
     };
     var viewmodel = new ViewModel;
+
+
     ko.applyBindings(viewmodel);
 </script>
