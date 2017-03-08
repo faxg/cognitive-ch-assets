@@ -9,7 +9,7 @@
                 <span>
                   <a class="navbar-left" href="#page-top"><img class="logo" src="/img/logo.png"/></a>
                   &nbsp;
-                  <a class="navbar-brand page-scroll" style="text-indent: 1.5em;" href="#page-top">{{demoName}}</a>
+                  <a class="navbar-brand page-scroll" style="text-indent: 1.5em;" href="#page-top">Cognitive Insurance Bot Demo</a>
                 </span>
             </div>
 
@@ -17,7 +17,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a class="page-scroll" href="#main">{{demoAction}}</a>
+                        <a class="page-scroll" href="#main">Chat</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#contact">Kontakt</a>
@@ -35,7 +35,7 @@
                 <!-- <h1 id="homeHeading">{{demoAction}}</h1> -->
                 <!-- <hr> -->
                 <p>
-                  {{demoNarrative}}
+                Haben Sie Fragen zu unseren Versicherungsangeboten? Dieser Virtuelle Assistent hilft Ihnen die richtigen Informationen zu finden. Powered by IBM Watson Developer Cloud.
                 </p>
                 <a href="#main" class="btn btn-primary btn-xl page-scroll">Los geht's</a>
             </div>
@@ -46,17 +46,13 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 text-center">
-                    <h2 class="section-heading">{{demoName}}</h2>
+                    <h2 class="section-heading">Cognitive Insurance Bot</h2>
                     <hr class="light">
-                    <!--
-                    <p class="text-faded">Please embed main app here (or open popup)</p>
-                    <a href="#services" class="page-scroll btn btn-default btn-xl sr-button">Additional infos on services</a>
-                    -->
                     <div class="row">
-                      <div class="col-md-12 text-left">
-                      {{> chatbot}}
+                      <div class="col-md-12">
+                        {{> chatbot}}
+                      </div>
                     </div>
-                  </div>
                 </div>
             </div>
         </div>

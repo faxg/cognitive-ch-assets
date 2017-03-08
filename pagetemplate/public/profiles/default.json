@@ -1,9 +1,0 @@
-{
-  "profile": "default",
-  "title": "default - please select a profile",
-  "demoClient": "Demo client",
-  "demoName": "Cognitive Insurance Assistant",
-  "demoNarrative": "Haben Sie Fragen zu unseren Versicherungsangeboten? Dieser Virtuelle Assistent hilft Ihnen die richtigen Informationen zu finden. Powered by IBM Watson Developer Cloud",
-  "demoAction": "Chat",
-  "headerImg": "img/header-default.jpg"
-}

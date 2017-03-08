@@ -20,10 +20,10 @@
         <!-- show details on Watson responses when showDetails flag is true -->
         <small data-bind="visible: $parent.showDetails">
                 <br />
-                <span data-bind="foreach: raw_response.intents">
+                <span data-bind="foreach: detectedIntents">
                   <span class="label label-default" data-bind="text: '#' + intent + '('+(Math.round(confidence*100)/100)*100+'%)'"></span>
                 </span>
-                <span data-bind="foreach: raw_response.entities">
+                <span data-bind="foreach: detectedEntities">
                   <span class="label label-success" data-bind="text: '@' + entity + '= '+ value"></span>
                 </span>
               </small>
@@ -41,17 +41,17 @@
 
 </form>
 
-<div class="detailsPanel" onmouseover="viewmodel.showDetailsVisible(true)" onmouseout="viewmodel.showDetailsVisible(false)">
+<div class="settingsPanel" onmouseover="viewmodel.showSettingsPanel(true)" onmouseout="viewmodel.showSettingsPanel(false)">
     <p><i class="fa fa-code"></i></p>
-    <div data-bind="visible: showDetailsVisible">
+    <div data-bind="visible: showSettingsPanel">
         <div class="checkbox">
             <label id="checkboxShowDetails"><input type="checkbox" data-bind="checked: showDetails"/>Show details</label>
         </div>
         <div>
             <input class="ws-input" data-bind="value: workspaceId" />
         </div>
-        <div><button class="btn-success" data-bind="click: clearMessages">Clear</button>
-          <button class="btn-warning" data-bind="click: workspaceId(DEFAULT_WORKSPACE_ID)">Reset</button></div>
+        <div><button class="btn btn-success" data-bind="click: clearMessages">Clear</button>
+          <button class="btn btn-warning" data-bind="click: workspaceId(DEFAULT_WORKSPACE_ID)">Reset</button></div>
     </div>
 </div>
 
@@ -62,33 +62,83 @@
 
 <!-- JSON view of latest Watson response -->
 <div data-bind="visible: showDetails">
-    <textarea class="pre-scrollable" data-bind="textInput: conversationContext">
+    <textarea class="pre-scrollable" data-bind="textInput: conversationContextString">
     </textarea>
   </pre>
 </div>
 
+<!-- HTML5 audio tag. "autoplay" will trigger audio as soon as the src binding gets updated-->
+<audio class="responseAudio"
+      type="audio/wav"
+      autoplay
+      preload="none"
+      data-bind="attr: {src: responseAudioUrl}">
+</audio>
 
 
 
 <script>
-    var DEFAULT_WORKSPACE_ID = "{{WDC_WORKSPACE_ID}}";
-    // The view model is an abstract description of the state of the UI, but without any knowledge of the UI technology (HTML)
-    var ViewModel = function() {
-        self = this;
-        self.messages = ko.observableArray(); // contains objects {from: 'watson|user', text: '...'}
+    var DEFAULT_WORKSPACE_ID = "{{WDC_WORKSPACE_ID}}"; // default WS id rendered into template
 
+
+    var ViewModel = function() {
+        self = this; // easier js scope handling
+        self.workspaceId = ko.observable(DEFAULT_WORKSPACE_ID); // workspaceID, change to use a different conversation workspace.
+        self.showDetails = ko.observable(false); // flag: show detail information in UI
+        self.showSettingsPanel = ko.observable(false); // flag: show settings pane
+
+        self.messages = ko.observableArray(); // contains objects {from: 'watson|user', text: '...'}
+        self.userInput = ko.observable(''); // Input text field for chat
+        self.lastResponse = ko.observable({}); // (raw) last response object from server
+        self.conversationContext = ko.observable({}); // current conversation context.
+
+
+
+        // context as string for display and sending to server
+        self.conversationContextString = ko.computed(function(){
+          return JSON.stringify(self.conversationContext(), null, 2);
+        });
+        // object containing the entities detected from the last response
+        self.detectedIntents = ko.computed(function(){
+          var intents = self.lastResponse().intents || {};
+          console.log ("detected intents: ", intents);
+          return intents;
+        });
+        // object containing the entities detected from the last response
+        self.detectedEntities = ko.computed(function(){
+          var entities = self.lastResponse().entities || {};
+          console.log ("detected entities: ", entities);
+          return entities;
+        });
+
+        // backend url path for text-to-speech (/text2speech?text=...).
+        // As we use <audio autoplay ... >, audio will start as soon as we update the src attribute
+        self.responseAudioUrl = ko.computed(function(){
+            var text = self.lastResponse().output ? self.lastResponse().output.text : '';
+            return "/text2speech?text=" + encodeURIComponent(text);
+        });
+
+
+
+
+        /**
+         *
+         */
         self.clearMessages = function() {
             self.messages([]);
-            self.conversationContext("{}");
+            self.lastResponse({});
+            self.conversationContext({});
         };
-        self.userInput = ko.observable('');
-        self.conversationContext = ko.observable("{}");
-        self.showDetails = ko.observable(false);
-        self.workspaceId = ko.observable(DEFAULT_WORKSPACE_ID);
-        self.showDetailsVisible = ko.observable(false);
 
 
 
+
+
+
+
+        /**
+         * Send user input to server, update context from response
+         **/
         self.send = function() {
             if (self.userInput != "") {
                 var text = self.userInput();
@@ -96,33 +146,48 @@
                     text: text,
                     from: 'user'
                 });
+                // push temporary placeholder response
+                self.messages.push({
+                    text: '...',
+                    from: 'watson',
+                    detectedIntents: {},
+                    detectedEntities: {}
+                });
                 self.userInput(''); // clear input text
 
                 // call backend which in turn calls the watson conversation service
                 var textParam = "text=" + encodeURIComponent(text) ;
-                var contextParam="context=" + encodeURIComponent(self.conversationContext());
+                var contextParam="context=" + encodeURIComponent(self.conversationContextString());
                 var wsParam = "workspaceId=" + self.workspaceId();
+
+                // call backend
                 $.get("/watson-chat?"+ textParam + "&" + contextParam + "&" + wsParam,function(data) {
                     response = JSON.parse(data);
                     console.log(response);
 
+                    self.lastResponse (response);
+                    self.conversationContext (response.context || {});
+                    // remove placeholder message and push Watson's response
+                    self.messages.pop();
                     self.messages.push({
                         text: response.output.text,
                         from: 'watson',
-                        raw_response: response
+                        detectedIntents: self.detectedIntents(),
+                        detectedEntities: self.detectedEntities()
                     });
-                    // save the conversation context for subsequent calls
-                    self.conversationContext(JSON.stringify(response.context,null,2));
 
-                    // scroll input field into view
+                    // stream audio text to speech
+                    // $.get ("/text2speech?text="+ encodeURIComponent(response.output.text), function (data){
+                    //   console.log (data);
+                    // });
+
 
                 });
             }
         }
 
     };
+
     var viewmodel = new ViewModel;
-
-
     ko.applyBindings(viewmodel);
 </script>

@@ -1,8 +1,9 @@
-.detailsPanel{
+.settingsPanel{
   position: absolute;
   /*background-color: red;*/
   top: -100px;
   right: 0;
+  border: 1px;
 }
 .logo {
   height: 48px;

@@ -1,6 +1,24 @@
 var express = require('express');
 var _ = require('lodash');
-var watson = require('watson-developer-cloud');
+
+
+//var watson = require('watson-developer-cloud');
+var ConversationV1 = require('watson-developer-cloud/conversation/v1');
+var TextToSpeechV1 = require('watson-developer-cloud/text-to-speech/v1');
+var fs = require('fs');
+
+
+var conversation = new ConversationV1({
+    username: process.env.WDC_USERNAME,
+    password: process.env.WDC_PASSWORD,
+    version_date: ConversationV1.VERSION_DATE_2016_09_20
+});
+var text_to_speech = new TextToSpeechV1({
+  username: '7f39fe97-4e7d-4603-84d9-3118b94ef6d6',//process.env.WDC_USERNAME,
+  password: 'gmU7wudrUhwX', //process.env.WDC_PASSWORD
+});
+
+
 
 var router = express.Router();
 // Authentication module.
@@ -10,26 +28,40 @@ var basic = auth.basic({
     file: __dirname + "/../users.htpasswd"
 });
 
-var conversation = watson.conversation({
-    username: process.env.WDC_USERNAME,
-    password: process.env.WDC_PASSWORD,
-    version: 'v1',
-    version_date: '2016-09-20'
-});
+
+
 var workspaceId = process.env.WDC_WORKSPACE_ID;
 
 
 /* GET home page. protected*/
 router.get('/', auth.connect(basic), function(req, res, next) {
-    var defaults = require("../public/profiles/default.json");
     var templateValues = {
       WDC_WORKSPACE_ID: workspaceId
-    }; // todo load override values (e.g. locale)
-    _.defaults(templateValues, defaults);
-
-
+    };
     res.render('index', templateValues);
 });
+
+router.get ('/text2speech', function (req, res){
+
+  var params = {
+    text: req.query.text || '',
+    voice: req.query.voice || 'de-DE_BirgitVoice', //'en-US_AllisonVoice',
+    accept: 'audio/wav'
+  };
+
+  res.set({
+    'Content-Type': 'audio/wav',
+    'Transfer-Encoding': 'chunked'
+  });
+
+  // stream response to synthesized audio
+  if (params.text){
+    text_to_speech.synthesize(params).pipe(res);
+  } else{
+    res.end();
+  }
+});
+
 
 
 router.get('/watson-chat', function(req, res) {
@@ -40,16 +72,18 @@ router.get('/watson-chat', function(req, res) {
     var context = JSON.parse (req.query.context || {});
     workspaceId = req.query.workspaceId || workspaceId;
 
-
-    conversation.message({
+    // request object for conversation service
+    var conversationRequest = {
         workspace_id: workspaceId,
         input: {
-            'text': req.query.text
+            'text': req.query.text || ''
         },
         context: context
-    }, function(err, response) {
+    };
+
+    conversation.message(conversationRequest, function(err, response) {
         if (err) {
-            console.log('error:', err);
+            console.log('error:', JSON.stringify(err,null,2));
             payload = {
                 output: {
                   text: 'Sorry, but: ' + err.error
@@ -57,6 +91,9 @@ router.get('/watson-chat', function(req, res) {
             };
         } else {
             payload = response;
+
+            // now create a text to speech stream, save to file and send link to .wav file back to browser
+
         }
         res.send(JSON.stringify(payload, null, 2));
     });
