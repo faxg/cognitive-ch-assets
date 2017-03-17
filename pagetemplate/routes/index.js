@@ -14,8 +14,8 @@ var conversation = new ConversationV1({
     version_date: ConversationV1.VERSION_DATE_2016_09_20
 });
 var text_to_speech = new TextToSpeechV1({
-  username: '7f39fe97-4e7d-4603-84d9-3118b94ef6d6',//process.env.WDC_USERNAME,
-  password: 'gmU7wudrUhwX', //process.env.WDC_PASSWORD
+  username: process.env.T2S_USERNAME,
+  password: process.env.T2S_PASSWORD
 });
 
 

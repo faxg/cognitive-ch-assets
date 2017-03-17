@@ -31,7 +31,7 @@ textarea{
   margin-left: 10px;
   margin-bottom: 10px;
   border-radius: 30px 30px 30px 1px;
-  border: 1px solid #ed431f;
+  border: 3px solid #ed431f;
   padding: 10px;
 }
 
@@ -41,6 +41,6 @@ textarea{
   margin-right: 10px;
   margin-bottom: 10px;
   border-radius: 30px 30px 1px 30px;
-  border: 1px solid #ed431f;
+  border: 3px solid #ed431f;
   padding: 10px;
 }
