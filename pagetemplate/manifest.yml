@@ -4,6 +4,9 @@ declared-services:
   conversation-service:
     label: conversation
     plan: free
+  text-to-speech:
+    label: text_to_speech
+    plan: standard
 applications:
 - name: insurance-chatbot
   command: npm install && npm start
