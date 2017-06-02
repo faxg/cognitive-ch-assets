@@ -45,7 +45,7 @@ router.get ('/text2speech', function (req, res){
 
   var params = {
     text: req.query.text || '',
-    voice: req.query.voice || 'de-DE_BirgitVoice', //'en-US_AllisonVoice',
+    voice: req.query.voice || 'en-US_AllisonVoice',//'de-DE_BirgitVoice'
     accept: 'audio/wav'
   };
 
