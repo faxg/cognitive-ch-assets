@@ -19,6 +19,7 @@
     "morgan": "~1.7.0",
     "request": "^2.79.0",
     "serve-favicon": "~2.3.0",
-    "watson-developer-cloud": "^2.18.0"
+    "watson-developer-cloud": "^2.18.0",
+    "whatwg-fetch": "^2.0.3"
   }
 }

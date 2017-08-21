@@ -1,24 +1,26 @@
+
+
 <form data-bind="submit: send">
 
 
-    <div data-bind="foreach: messages">
-        <div class="row">
-            <!-- User message-->
-            <span data-bind="if: from == 'user'">
+  <div data-bind="foreach: messages">
+    <div class="row">
+      <!-- User message-->
+      <span data-bind="if: from == 'user'">
               <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 from-user">
                 <img src="img/user.png" class="img-circle" height="48" width="48"></img>
                 <span data-bind="text: $data.text"></span>
-        </div>
-        </span>
+    </div>
+    </span>
 
-        <!-- Watson message-->
-        <span data-bind="if: from == 'watson'">
+    <!-- Watson message-->
+    <span data-bind="if: from == 'watson'">
               <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 from-watson">
               <span data-bind="text: $data.text"></span>
-        <img src="img/watson.png" class="img-circle" height="48" width="48">
+    <img src="img/watson.png" class="img-circle" height="48" width="48">
 
-        <!-- show details on Watson responses when showDetails flag is true -->
-        <small data-bind="visible: $parent.showDetails">
+    <!-- show details on Watson responses when showDetails flag is true -->
+    <small data-bind="visible: $parent.showDetails">
                 <br />
                 <span data-bind="foreach: detectedIntents">
                   <span class="label label-default" data-bind="text: '#' + intent + '('+(Math.round(confidence*100)/100)*100+'%)'"></span>
@@ -27,161 +29,222 @@
                   <span class="label label-success" data-bind="text: '@' + entity + '= '+ value"></span>
                 </span>
               </small>
-    </div>
-    </span>
+  </div>
+  </span>
 
-    </div>
-    </div>
+  </div>
+  </div>
 
 
-
-    <input class="chat-input" data-bind='value: userInput, valueUpdate: "afterkeydown"' placeholder="Ihre Eingabe bitte" />
-
+  <div>
+    <span>Microphone: <input type="checkbox" name="microphone" data-size="mini" data-on-text="on" data-off-text="off" data-bind="bootstrapSwitch: microphone"></span>
+    <small>(press CTRL to start speaking)</small>
+    <input class="chat-input" data-bind='value: userInput, valueUpdate: "afterkeydown"' placeholder="Your input please" />
+    <span class="speech-input"></span>
+  </div>
 
 
 </form>
 
 <div class="settingsPanel" onmouseover="viewmodel.showSettingsPanel(true)" onmouseout="viewmodel.showSettingsPanel(false)">
-    <p><i class="fa fa-code"></i></p>
-    <div data-bind="visible: showSettingsPanel">
-        <div class="checkbox">
-            <label id="checkboxShowDetails"><input type="checkbox" data-bind="checked: showDetails"/>Show details</label>
-        </div>
-        <div>
-            <input class="ws-input" data-bind="value: workspaceId" />
-        </div>
-        <div><button class="btn btn-success" data-bind="click: clearMessages">Clear</button>
-          <button class="btn btn-warning" data-bind="click: workspaceId(DEFAULT_WORKSPACE_ID)">Reset</button></div>
+  <p><i class="fa fa-code"></i></p>
+  <div data-bind="visible: showSettingsPanel">
+    <div class="checkbox">
+      <label id="checkboxShowDetails"><input type="checkbox" data-bind="checked: showDetails"/>Show details</label>
     </div>
+    <div>
+      <input class="ws-input" data-bind="value: workspaceId" />
+    </div>
+    <div><button class="btn btn-success" data-bind="click: clearMessages">Clear</button>
+      <button class="btn btn-warning" data-bind="click: workspaceId(DEFAULT_WORKSPACE_ID)">Reset</button></div>
+  </div>
 </div>
 
 
 <div>
-    <p>&nbsp;</p>
+  <p>&nbsp;</p>
 </div>
 
 <!-- JSON view of latest Watson response -->
 <div data-bind="visible: showDetails">
-    <textarea class="pre-scrollable" data-bind="textInput: conversationContextString">
+  <textarea class="pre-scrollable" data-bind="textInput: conversationContextString">
     </textarea>
   </pre>
 </div>
 
 <!-- HTML5 audio tag. "autoplay" will trigger audio as soon as the src binding gets updated-->
-<audio class="responseAudio"
-      type="audio/wav"
-      autoplay
-      preload="none"
-      data-bind="attr: {src: responseAudioUrl}">
+<audio class="responseAudio" type="audio/wav" autoplay preload="none" data-bind="attr: {src: responseAudioUrl}">
 </audio>
 
 
 
 <script>
-    var DEFAULT_WORKSPACE_ID = "{{WDC_WORKSPACE_ID}}"; // default WS id rendered into template
+  // enable microphone switch
+  //$("[name='microphone']").bootstrapSwitch();
+
+  var DEFAULT_WORKSPACE_ID = "{{WDC_WORKSPACE_ID}}"; // default WS id rendered into template
 
 
-    var ViewModel = function() {
-        self = this; // easier js scope handling
-        self.workspaceId = ko.observable(DEFAULT_WORKSPACE_ID); // workspaceID, change to use a different conversation workspace.
-        self.showDetails = ko.observable(false); // flag: show detail information in UI
-        self.showSettingsPanel = ko.observable(false); // flag: show settings pane
+  var ViewModel = function() {
+    self = this; // easier js scope handling
+    self.workspaceId = ko.observable(DEFAULT_WORKSPACE_ID); // workspaceID, change to use a different conversation workspace.
+    self.showDetails = ko.observable(false); // flag: show detail information in UI
+    self.showSettingsPanel = ko.observable(false); // flag: show settings pane
 
-        self.messages = ko.observableArray(); // contains objects {from: 'watson|user', text: '...'}
-        self.userInput = ko.observable(''); // Input text field for chat
-        self.lastResponse = ko.observable({}); // (raw) last response object from server
-        self.conversationContext = ko.observable({}); // current conversation context.
+    self.messages = ko.observableArray(); // contains objects {from: 'watson|user', text: '...'}
+    self.userInput = ko.observable(''); // Input text field for chat
+    self.lastResponse = ko.observable({}); // (raw) last response object from server
+    self.conversationContext = ko.observable({}); // current conversation context.
 
-
-
-        // context as string for display and sending to server
-        self.conversationContextString = ko.computed(function(){
-          return JSON.stringify(self.conversationContext(), null, 2);
-        });
-        // object containing the entities detected from the last response
-        self.detectedIntents = ko.computed(function(){
-          var intents = self.lastResponse().intents || {};
-          console.log ("detected intents: ", intents);
-          return intents;
-        });
-        // object containing the entities detected from the last response
-        self.detectedEntities = ko.computed(function(){
-          var entities = self.lastResponse().entities || {};
-          console.log ("detected entities: ", entities);
-          return entities;
-        });
-
-        // backend url path for text-to-speech (/text2speech?text=...).
-        // As we use <audio autoplay ... >, audio will start as soon as we update the src attribute
-        self.responseAudioUrl = ko.computed(function(){
-            var text = self.lastResponse().output ? self.lastResponse().output.text : '';
-            return "/text2speech?text=" + encodeURIComponent(text);
-        });
-
-
-        /**
-         *
-         */
-        self.clearMessages = function() {
-            self.messages([]);
-            self.lastResponse({});
-            self.conversationContext({});
-        };
-
-
-
-        /**
-         * Send user input to server, update context from response
-         **/
-        self.send = function() {
-            if (self.userInput != "") {
-                var text = self.userInput();
-                self.messages.push({
-                    text: text,
-                    from: 'user'
-                });
-                // push temporary placeholder response
-                self.messages.push({
-                    text: '...',
-                    from: 'watson',
-                    detectedIntents: {},
-                    detectedEntities: {}
-                });
-                self.userInput(''); // clear input text
-
-                // call backend which in turn calls the watson conversation service
-                var textParam = "text=" + encodeURIComponent(text) ;
-                var contextParam="context=" + encodeURIComponent(self.conversationContextString());
-                var wsParam = "workspaceId=" + self.workspaceId();
-
-                // call backend
-                $.get("/watson-chat?"+ textParam + "&" + contextParam + "&" + wsParam,function(data) {
-                    response = JSON.parse(data);
-                    console.log(response);
-
-                    self.lastResponse (response);
-                    self.conversationContext (response.context || {});
-                    // remove placeholder message and push Watson's response
-                    self.messages.pop();
-                    self.messages.push({
-                        text: response.output.text,
-                        from: 'watson',
-                        detectedIntents: self.detectedIntents(),
-                        detectedEntities: self.detectedEntities()
-                    });
-
-                    // stream audio text to speech
-                    // $.get ("/text2speech?text="+ encodeURIComponent(response.output.text), function (data){
-                    //   console.log (data);
-                    // });
-
-
-                });
-            }
+    self.microphone = ko.observable(false); // enable microphone, for speech to text
+    self.s2t_token = ko.observable ('123');
+    self.s2t_config = ko.observable(function(){
+      return {
+          token: self.s2t_token(),
+          continuous: false, // False = automatically stop transcription the first time a pause is detected
+          outputElement: '.speech-input', // CSS selector or DOM Element
+          inactivity_timeout: 1, // Number of seconds to wait before closing input stream
+          format: false, // Inhibits errors
+          keepMicrophone: true // Avoids repeated permissions prompts in FireFox
         }
+    });
 
+    self.speechInput = ko.computed(function() {
+      if (self.microphone()) {
+        console.log("Speech input is ON");
+        var c = self.s2t_config();
+        c.token = self.s2t_token();
+        console.log (c());
+        stream = WatsonSpeech.SpeechToText.recognizeMicrophone(c());
+        stream.promise() // Once all data has been processed...
+          .then(function(data) { // ...put all of it into a single array
+              console.log(data);
+              self.userInput(data[0]);
+              self.microphone(false);
+              return data;
+          }).catch(function(err) {
+              if (err.toString().indexOf('Error: No speech detected') >= 0){
+                self.userInput($('.speech-input').text());
+                $('.speech-input').text('');
+                self.send();
+              }
+              console.log(err);
+              self.microphone(false);
+          });
+
+      } else {
+        console.log("Speech input is OFF");
+        return "(microphone is off)";
+      }
+    });
+
+    // context as string for display and sending to server
+    self.conversationContextString = ko.computed(function() {
+      return JSON.stringify(self.conversationContext(), null, 2);
+    });
+    // object containing the entities detected from the last response
+    self.detectedIntents = ko.computed(function() {
+      var intents = self.lastResponse().intents || {};
+      console.log("detected intents: ", intents);
+      return intents;
+    });
+    // object containing the entities detected from the last response
+    self.detectedEntities = ko.computed(function() {
+      var entities = self.lastResponse().entities || {};
+      console.log("detected entities: ", entities);
+      return entities;
+    });
+
+    // backend url path for text-to-speech (/text2speech?text=...).
+    // As we use <audio autoplay ... >, audio will start as soon as we update the src attribute
+    self.responseAudioUrl = ko.computed(function() {
+      var text = self.lastResponse().output ? self.lastResponse().output.text : '';
+      return "/text2speech?text=" + encodeURIComponent(text);
+    });
+
+
+    /**
+     *
+     */
+    self.clearMessages = function() {
+      self.messages([]);
+      self.lastResponse({});
+      self.conversationContext({});
     };
 
-    var viewmodel = new ViewModel;
-    ko.applyBindings(viewmodel);
+
+
+    /**
+     * Send user input to server, update context from response
+     **/
+    self.send = function() {
+      if (self.userInput() != "") {
+        var text = self.userInput();
+        self.messages.push({
+          text: text,
+          from: 'user'
+        });
+        // push temporary placeholder response
+        self.messages.push({
+          text: '...',
+          from: 'watson',
+          detectedIntents: {},
+          detectedEntities: {}
+        });
+        self.userInput(''); // clear input text
+
+        // call backend which in turn calls the watson conversation service
+        var textParam = "text=" + encodeURIComponent(text);
+        var contextParam = "context=" + encodeURIComponent(self.conversationContextString());
+        var wsParam = "workspaceId=" + self.workspaceId();
+
+        // call backend
+        $.get("/watson-chat?" + textParam + "&" + contextParam + "&" + wsParam, function(data) {
+          response = JSON.parse(data);
+          console.log(response);
+
+          self.lastResponse(response);
+          self.conversationContext(response.context || {});
+          // remove placeholder message and push Watson's response
+          self.messages.pop();
+          self.messages.push({
+            text: response.output.text,
+            from: 'watson',
+            detectedIntents: self.detectedIntents(),
+            detectedEntities: self.detectedEntities()
+          });
+
+
+
+
+        });
+      }
+    }
+
+  };
+
+  var viewmodel = new ViewModel;
+  ko.applyBindings(viewmodel);
+
+  // initSpeech2Text token. Only called once on page reload
+  fetch('/speech2text/token').then(function(response) {
+        response.text().then(function(t){
+          console.log ('Token: ', t);
+          viewmodel.s2t_token (t); // update property here
+        });
+
+  });
+
+  // workaround: activate speech on 's' key
+  document.addEventListener('keydown', function(e) {
+    var x = e.which || e.keyCode;
+   if (x == 17) { //'left ctrl'
+     viewmodel.microphone(true);
+   }
+ });
+
+
+
+
+  //initSpeech2Text();
 </script>

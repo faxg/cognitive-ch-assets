@@ -3,8 +3,13 @@ var _ = require('lodash');
 
 
 //var watson = require('watson-developer-cloud');
+const watson = require('watson-developer-cloud');
+
 var ConversationV1 = require('watson-developer-cloud/conversation/v1');
 var TextToSpeechV1 = require('watson-developer-cloud/text-to-speech/v1');
+var SpeechToTextV1 = require('watson-developer-cloud/speech-to-text/v1');
+
+
 var fs = require('fs');
 
 
@@ -17,6 +22,45 @@ var text_to_speech = new TextToSpeechV1({
   username: process.env.T2S_USERNAME,
   password: process.env.T2S_PASSWORD
 });
+// var speech_to_text = new SpeechToTextV1({
+//   username: process.env.S2T_USERNAME,
+//   password: process.env.S2T_PASSWORD
+// });
+// var speech_to_text_params = {
+//   model: 'en-US_BroadbandModel',
+//   content_type: 'audio/flac',
+//   'interim_results': true,
+//   'max_alternatives': 3,
+//   'word_confidence': false,
+//   timestamps: false,
+//   keywords: ['UBS', 'banking'],
+//   'keywords_threshold': 0.5
+// };
+const t2s_credentials = {
+  username: process.env.S2T_USERNAME,
+  password: process.env.S2T_PASSWORD,
+  url: 'https://stream.watsonplatform.net/speech-to-text/api',
+  version: 'v1'
+};
+
+const authorizationService = watson.authorization(t2s_credentials);
+
+
+// // Create the stream.
+// var recognizeStream = speech_to_text.createRecognizeStream(speech_to_text_params);
+// // Get strings instead of buffers from 'data' events.
+// recognizeStream.setEncoding('utf8');
+// // Listen for events.
+// recognizeStream.on('results', function(event) { onEvent('Results:', event); });
+// recognizeStream.on('data', function(event) { onEvent('Data:', event); });
+// recognizeStream.on('error', function(event) { onEvent('Error:', event); });
+// recognizeStream.on('close', function(event) { onEvent('Close:', event); });
+// recognizeStream.on('speaker_labels', function(event) { onEvent('Speaker_Labels:', event); });
+//
+// // Displays events on the console.
+// function onEvent(name, event) {
+//   console.log(name, JSON.stringify(event, null, 2));
+// };
 
 
 
@@ -40,6 +84,20 @@ router.get('/', auth.connect(basic), function(req, res, next) {
     };
     res.render('index', templateValues);
 });
+
+/* */
+router.get ('/speech2text/token', function (req, res, next){
+  console.log (t2s_credentials);
+  authorizationService.getToken({ url: t2s_credentials.url }, function (error, token)  {
+      if (error) {
+        res.send(error);
+      } else {
+        res.send(token);
+      }
+    });
+});
+
+
 
 router.get ('/text2speech', function (req, res){
 
